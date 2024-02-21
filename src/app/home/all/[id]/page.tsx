@@ -1,9 +1,12 @@
 'use client';
 
-import CustomToolTip from '@/components/CustomToolTip';
+import action from '@/app/actions';
+
 import Inputs from '@/components/Input';
 import { TaskData } from '@/components/TodayPage/common';
 import { Button } from '@/components/ui/button';
+import { useToast } from '@/components/ui/use-toast';
+
 import axios from 'axios';
 import { Ban, Bell, CheckCircle, Hash, NotepadText, X } from 'lucide-react';
 import { useRouter } from 'next/navigation';
@@ -14,6 +17,7 @@ import { z } from 'zod';
 
 export default function TaskPage({ params }: { params: { id: string } }) {
   const [task, setTask] = useState<TaskData>();
+  const { toast } = useToast();
   const router = useRouter();
   useEffect(() => {
     const getTask = async (id: string) => {
@@ -21,7 +25,10 @@ export default function TaskPage({ params }: { params: { id: string } }) {
       if (res?.data?.success) {
         setTask(res?.data?.task);
       } else {
-        console.error(res?.data);
+        toast({
+          variant: 'destructive',
+          title: res?.data?.message,
+        });
       }
     };
     getTask(params?.id);
@@ -29,6 +36,7 @@ export default function TaskPage({ params }: { params: { id: string } }) {
 
   const formSchema = z.object({
     title: z.string(),
+    description: z.string(),
   });
 
   const { handleSubmit, register } = useForm<z.infer<typeof formSchema>>({
@@ -36,14 +44,22 @@ export default function TaskPage({ params }: { params: { id: string } }) {
       const res = await axios.get(`/api/task/${params.id}`);
       return {
         title: res?.data?.task?.title,
+        description: res?.data?.task?.description,
       };
     },
   });
-  console.log(task);
 
+  const handleFormSubmit = async (value: z.infer<typeof formSchema>) => {
+    const res = await axios.patch(`/api/task/${task?._id}`, { ...value });
+    if (res.data.success) {
+      action('task');
+    } else {
+      toast;
+    }
+  };
   return (
     <div className="border-2 h-[500px] w-full  py-3 px-6 rounded-lg bg-background">
-      <form>
+      <form onSubmit={handleSubmit(handleFormSubmit)}>
         <div>
           <div className="modal_body mt-2">
             <Inputs
@@ -77,7 +93,10 @@ export default function TaskPage({ params }: { params: { id: string } }) {
               <label htmlFor="description" className="text-sm">
                 Description :
               </label>
-              <textarea className="w-full resize-y min-h-24 overflow-hidden focus:outline-none p-1 border-2 border-gray-300" />
+              <textarea
+                className="w-full resize-y min-h-24 overflow-hidden focus:outline-none p-1 border-2 border-gray-300"
+                {...register('description')}
+              />
             </div>
             <div className="footer flex justify-end mt-4 gap-3">
               <Button
@@ -86,7 +105,7 @@ export default function TaskPage({ params }: { params: { id: string } }) {
                 type="button">
                 Cancel
               </Button>
-              <Button>Submit</Button>
+              <Button type="submit">Submit</Button>
             </div>
           </div>
         </div>

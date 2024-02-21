@@ -1,16 +1,23 @@
 import DisplayTask from '@/components/AllPage/DisplayTask';
+import { TaskData } from '@/components/TodayPage/common';
+import usePost from '@/customHooks/usePost';
 
-export default function AllPageLayout({
+export default async function AllPageLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const { getPosts } = usePost();
+  const data = await getPosts();
   return (
     <div className=" h-screen flex gap-8">
       <div className=" w-2/4 flex items-center justify-center">
         <div className="box h-[500px] w-full  py-3 px-6 rounded-lg bg-background">
           <h5 className="font-semibold">Today</h5>
-          <DisplayTask />
+          {data?.taskData?.length &&
+            data?.taskData.map((tasks: TaskData) => (
+              <DisplayTask tasks={tasks} key={tasks._id} />
+            ))}
         </div>
       </div>
       <div className="w-2/4 flex items-center justify-center">{children}</div>
