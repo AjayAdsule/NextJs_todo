@@ -8,8 +8,6 @@ interface ComponentsProps {
 }
 
 const TaskContainer: React.FC<ComponentsProps> = ({ title, task }) => {
-  console.log({ task });
-
   return (
     <div className="h-[200px] w-[300px] border-2 rounded-lg bg-background p-2">
       <h4>{title}</h4>

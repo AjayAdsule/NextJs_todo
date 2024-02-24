@@ -1,7 +1,6 @@
-import { TaskData } from '@/components/TodayPage/common';
 import usePost from '@/customHooks/usePost';
 import React from 'react';
-import { GetDays } from '@/lib/days';
+import { GetDays } from '@/Constant/days';
 import TaskContainer from '@/components/NextSevenDay/TaskContainer';
 const NextSevenDayPage = async () => {
   const { getPosts } = usePost();

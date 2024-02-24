@@ -6,10 +6,11 @@ import usePost from '@/customHooks/usePost';
 const TodayPage = async () => {
   const { getPosts } = usePost();
   const { taskData } = await getPosts();
-
-  const todayTasks = taskData?.filter((item: TaskData) => {
-    const date = new Date().toLocaleDateString();
-    return item?.date === date;
+  //get current date task
+  const currentDate = new Date().getDate();
+  const currentDateTask = taskData?.filter((task: TaskData) => {
+    const getCurrentTaskDate = new Date(task.date).getDate();
+    return getCurrentTaskDate === currentDate;
   });
 
   return (
@@ -22,8 +23,8 @@ const TodayPage = async () => {
       </div>
       <div className="content mt-6">
         <AddTaskForToday data={taskData} />
-        {todayTasks &&
-          todayTasks.map((task: TaskData) => {
+        {currentDateTask &&
+          currentDateTask.map((task: TaskData) => {
             const { title, description, isCompleted, _id } = task;
             return <TodoList title={title} id={_id} key={_id} />;
           })}
