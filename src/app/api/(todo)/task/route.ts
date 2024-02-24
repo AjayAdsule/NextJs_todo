@@ -15,9 +15,6 @@ export const POST = async (request: NextRequest) => {
   try {
     const reqBody = await request.json();
     const { title, description, userId, date }: RequestBody = reqBody;
-    const dateOnly = new Date(date).toISOString();
-    console.log({ title, description, userId, dateOnly, date });
-    let demoDate = new Date(date).toLocaleDateString();
 
     if (!title) {
       return NextResponse.json({
@@ -31,7 +28,7 @@ export const POST = async (request: NextRequest) => {
       title,
       description,
       userId,
-      date: demoDate,
+      date,
     });
     await newTask.save();
     return NextResponse.json({

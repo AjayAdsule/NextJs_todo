@@ -10,7 +10,7 @@ export default function HomeLayout({ children }: AppProps) {
     <>
       <HomeLayoutWrapper>
         <SideBar />
-        <div className=" w-[70%] m-auto h-screen pt-6">{children}</div>
+        <div className=" w-[70%] m-auto h-[100vh] pt-6">{children}</div>
       </HomeLayoutWrapper>
     </>
   );

@@ -12,7 +12,7 @@ export default function SideBar() {
 
   return (
     <aside
-      className={`h-screen ${isOpen ? 'w-72' : 'w-6'} duration-300 p-4 relative bg-background ${!isOpen ? 'bg-inherit ' : ''} `}>
+      className={`h-[605px] ${isOpen ? 'w-72' : 'w-6'} duration-300 p-4 relative bg-background ${!isOpen ? 'bg-inherit ' : ''} `}>
       <nav className={`h-full flex flex-col overflow-hidden `}>
         <div className="flex justify-between ">
           <div className="profile flex">

@@ -1,12 +1,13 @@
 'use client';
 
-import Link from 'next/link';
-import DoneTask from '../TodayPage/DoneTask';
 import { MoreVertical } from 'lucide-react';
 import { useTheme } from 'next-themes';
+import React from 'react';
 import { TaskData } from '../TodayPage/common';
+import DoneTask from '../TodayPage/DoneTask';
+import Link from 'next/link';
 
-const DisplayTask = ({ tasks }: { tasks: TaskData }) => {
+const DailyTask = ({ tasks }: { tasks: TaskData }) => {
   const { title, description, _id } = tasks;
   const { theme } = useTheme();
   return (
@@ -25,4 +26,4 @@ const DisplayTask = ({ tasks }: { tasks: TaskData }) => {
   );
 };
 
-export default DisplayTask;
+export default DailyTask;
