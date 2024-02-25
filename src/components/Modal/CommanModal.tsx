@@ -1,5 +1,4 @@
-import { Button } from '../ui/button';
-import { Dialog, DialogClose, DialogContent, DialogHeader } from '../ui/dialog';
+import { Dialog, DialogContent, DialogHeader } from '../ui/dialog';
 
 interface ModalProps {
   children: React.ReactNode;

@@ -1,55 +1,40 @@
 'use client';
 
-import CustomToolTip from '@/components/CustomToolTip';
-import Inputs from '@/components/Input';
-import Modal from '@/components/Modal/CommanModal';
-import { TaskData } from '@/components/TodayPage/common';
-import { Button } from '@/components/ui/button';
-import { DialogClose } from '@/components/ui/dialog';
-import axios from 'axios';
+import { Dialog, DialogContent } from '../ui/dialog';
+import CustomToolTip from '../CustomToolTip';
+import { TaskData } from '../TodayPage/common';
 import { Ban, Bell, CheckCircle, Hash, NotepadText, X } from 'lucide-react';
-import { useRouter } from 'next/navigation';
-import { useEffect, useState } from 'react';
-import { useForm } from 'react-hook-form';
 import { z } from 'zod';
+import { useForm } from 'react-hook-form';
+import Inputs from '../Input';
+import { Button } from '../ui/button';
 
-interface Params {
-  params: {
-    id: string;
-  };
-}
-
-const TaskModalPage = ({ params }: Params) => {
-  const [task, setTask] = useState<TaskData>();
-  const router = useRouter();
-  useEffect(() => {
-    const getTask = async (id: string) => {
-      const res = await axios.get(`/api/task/${id}`);
-      if (res?.data?.success) {
-        setTask(res?.data?.task);
-      } else {
-        console.error(res?.data);
-      }
-    };
-    getTask(params?.id);
-  }, [params?.id]);
-
+const TaskModal = ({
+  id,
+  isModalOpen,
+  setIsModalOpen,
+  task,
+}: {
+  id: string;
+  isModalOpen: boolean;
+  setIsModalOpen: (isModalOpen: boolean) => void;
+  task: TaskData;
+}) => {
   const formSchema = z.object({
     title: z.string(),
+    description: z.string(),
   });
 
   const { handleSubmit, register } = useForm<z.infer<typeof formSchema>>({
-    defaultValues: async () => {
-      const res = await axios.get(`/api/task/${params?.id}`);
-      return {
-        title: res?.data?.task?.title,
-      };
+    defaultValues: {
+      title: task?.title,
+      description: task?.description,
     },
   });
 
   return (
-    <>
-      <Modal defaultOpen={true}>
+    <Dialog open={isModalOpen}>
+      <DialogContent>
         <form>
           <div>
             <div className="header flex gap-2 justify-end">
@@ -59,11 +44,14 @@ const TaskModalPage = ({ params }: Params) => {
               <CustomToolTip message="Mark as done">
                 <CheckCircle size={20} strokeWidth={1} />
               </CustomToolTip>
-              <DialogClose>
-                <CustomToolTip message="Close">
-                  <X size={20} strokeWidth={1} onClick={() => router.back()} />
-                </CustomToolTip>
-              </DialogClose>
+
+              <CustomToolTip message="Close">
+                <X
+                  size={20}
+                  strokeWidth={1}
+                  onClick={() => setIsModalOpen(!isModalOpen)}
+                />
+              </CustomToolTip>
             </div>
             <div className="modal_body mt-2">
               <Inputs
@@ -102,12 +90,15 @@ const TaskModalPage = ({ params }: Params) => {
                 <label htmlFor="description" className="text-sm">
                   Description :
                 </label>
-                <textarea className="w-full resize-y min-h-24 overflow-hidden focus:outline-none p-1 border-2 border-gray-300" />
+                <textarea
+                  className="w-full resize-y min-h-24 overflow-hidden focus:outline-none p-1 border-2 border-gray-300"
+                  {...register('description')}
+                />
               </div>
               <div className="footer flex justify-end mt-4 gap-3">
                 <Button
                   variant="outline"
-                  onClick={() => router.back()}
+                  onClick={() => setIsModalOpen(!isModalOpen)}
                   type="button">
                   Cancel
                 </Button>
@@ -116,9 +107,9 @@ const TaskModalPage = ({ params }: Params) => {
             </div>
           </div>
         </form>
-      </Modal>
-    </>
+      </DialogContent>
+    </Dialog>
   );
 };
 
-export default TaskModalPage;
+export default TaskModal;
