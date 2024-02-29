@@ -80,7 +80,6 @@
 }
 body::-webkit-scrollbar {
   width: 15px;
-  height: 12px;
 }
 
 body::-webkit-scrollbar-track {
@@ -88,6 +87,7 @@ body::-webkit-scrollbar-track {
 }
 
 body::-webkit-scrollbar-thumb {
+  height: 10px;
   background-color: darkgray;
   border-radius: 10px;
 }
