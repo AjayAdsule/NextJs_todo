@@ -1,3 +1,4 @@
+import Footer from '@/components/Footer';
 import HomeMain from '@/components/HomeMain';
 import Navbar from '@/components/Navbar';
 import {
@@ -49,7 +50,7 @@ const Home = () => {
             />
           </div>
         </div>
-        <div className="bg-[url('https://www.any.do/_next/static/media/platform-links.6c778b32.webp')] mt-12 bg-[length:1340px] flex flex-col bg-no-repeat h-[1250px] justify-center">
+        <div className="bg-[url('https://www.any.do/_next/static/media/platform-links.6c778b32.webp')] mt-12 bg-[length:1340px] flex flex-col bg-no-repeat h-[1300px] justify-center">
           <div className=" w-full flex justify-center">
             <div className=" w-[650px]">
               <h4 className="text-5xl text-center font-bold">
@@ -80,6 +81,7 @@ const Home = () => {
           </div>
         </div>
       </div>
+      <Footer />
     </>
   );
 };
