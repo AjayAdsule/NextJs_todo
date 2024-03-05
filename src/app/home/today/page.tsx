@@ -1,4 +1,5 @@
 import AddTaskForToday from '@/components/TodayPage/NoTask';
+import { ShowMessage } from '@/components/TodayPage/ShowMessage';
 import TodoList from '@/components/TodayPage/Todo';
 import { TaskData } from '@/components/TodayPage/common';
 import usePost from '@/customHooks/usePost';
@@ -23,11 +24,14 @@ const TodayPage = async () => {
       </div>
       <div className="content mt-6">
         <AddTaskForToday data={taskData} />
-        {currentDateTask &&
+        {currentDateTask.length ? (
           currentDateTask.map((task: TaskData) => {
             const { title, description, isCompleted, _id } = task;
             return <TodoList title={title} id={_id} key={_id} />;
-          })}
+          })
+        ) : (
+          <ShowMessage />
+        )}
       </div>
     </>
   );

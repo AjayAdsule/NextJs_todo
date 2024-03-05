@@ -9,18 +9,24 @@ export default async function AllPageLayout({
 }) {
   const { getPosts } = usePost();
   const data = await getPosts();
+
   return (
-    <div className=" flex gap-8">
-      <div className=" w-2/4 flex items-center justify-center">
-        <div className="box h-[500px] w-full  py-3 px-6 rounded-lg bg-background">
-          <h5 className="font-semibold">Today</h5>
-          {data?.taskData?.length &&
-            data?.taskData.map((tasks: TaskData) => (
-              <DisplayTask tasks={tasks} key={tasks._id} />
-            ))}
-        </div>
+    <>
+      <div className="nav border-2 h-[40px] flex">
+        <div className="cap rounded-2xl "></div>
       </div>
-      <div className="w-2/4 flex items-center justify-center">{children}</div>
-    </div>
+      <div className=" flex gap-8 mt-6">
+        <div className=" w-2/4 flex items-center justify-center">
+          <div className="box h-[500px] w-full  py-3 px-6 rounded-lg bg-background">
+            <h5 className="font-semibold">Today</h5>
+            {data?.taskData?.length &&
+              data?.taskData.map((tasks: TaskData) => (
+                <DisplayTask tasks={tasks} key={tasks._id} />
+              ))}
+          </div>
+        </div>
+        <div className="w-2/4 flex items-center justify-center">{children}</div>
+      </div>
+    </>
   );
 }
