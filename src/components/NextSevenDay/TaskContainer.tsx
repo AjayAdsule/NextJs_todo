@@ -1,5 +1,4 @@
 import DailyTask from '../AllPage/DailyTask';
-import DisplayTask from '../AllPage/DisplayTask';
 import { TaskData } from '../TodayPage/common';
 
 interface ComponentsProps {

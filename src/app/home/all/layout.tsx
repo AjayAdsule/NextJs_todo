@@ -1,4 +1,5 @@
 import DisplayTask from '@/components/AllPage/DisplayTask';
+import HomeNav from '@/components/HomeNav';
 import { TaskData } from '@/components/TodayPage/common';
 import usePost from '@/customHooks/usePost';
 
@@ -12,9 +13,7 @@ export default async function AllPageLayout({
 
   return (
     <>
-      <div className="nav border-2 h-[40px] flex">
-        <div className="cap rounded-2xl "></div>
-      </div>
+      <HomeNav />
       <div className=" flex gap-8 mt-6">
         <div className=" w-2/4 flex items-center justify-center">
           <div className="box h-[500px] w-full  py-3 px-6 rounded-lg bg-background">
